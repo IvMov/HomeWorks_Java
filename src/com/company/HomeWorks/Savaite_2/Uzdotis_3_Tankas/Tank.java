@@ -1,5 +1,7 @@
 package com.company.HomeWorks.Savaite_2.Uzdotis_3_Tankas;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
 public class Tank {
@@ -24,7 +26,7 @@ public class Tank {
         this.positionY = positionY;
         this.presentDirectionOfTank = presentDirectionOfTank;
         nrOfTanks++;
-        System.out.println("Tank Nr-" + nrOfTanks + " created");
+        System.out.println("[" + getTimeofAction() + "]Tank Nr-" + nrOfTanks + " created");
     }
 
     public void getInfoAboutTank() {
@@ -35,16 +37,16 @@ public class Tank {
     public void doShot() {
         if (presentDirectionOfTank == TankDirections.NORTH) {
             shotsInNorth++;
-            System.out.println("Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
+            System.out.println("[" + getTimeofAction() + "]Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
         } else if (presentDirectionOfTank == TankDirections.EAST) {
             shotsInEast++;
-            System.out.println("Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
+            System.out.println("[" + getTimeofAction() + "]Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
         } else if (presentDirectionOfTank == TankDirections.SOUTH) {
             shotsInSouth++;
-            System.out.println("Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
+            System.out.println("[" + getTimeofAction() + "]Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
         } else {
             shotsInWest++;
-            System.out.println("Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
+            System.out.println("[" + getTimeofAction() + "]Šūvis į " + presentDirectionOfTank.getInLithuanianWay());
         }
     }
 
@@ -52,31 +54,36 @@ public class Tank {
     public void moveForward() {
         positionY++;
         presentDirectionOfTank = TankDirections.NORTH;
-        System.out.println("Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
+        System.out.println("[" + getTimeofAction() + "]Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
     }
 
     public void moveRight() {
         positionX++;
         presentDirectionOfTank = TankDirections.EAST;
-        System.out.println("Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
+        System.out.println("[" + getTimeofAction() + "]Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
     }
 
     public void moveBack() {
         positionY--;
         presentDirectionOfTank = TankDirections.SOUTH;
-        System.out.println("Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
+        System.out.println("[" + getTimeofAction() + "]Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
     }
 
     public void moveLeft() {
         positionX--;
         presentDirectionOfTank = TankDirections.WEST;
-        System.out.println("Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
+        System.out.println("[" + getTimeofAction() + "]Tankas pajuda į " + presentDirectionOfTank.getInLithuanianWay() + ". Position (" + positionX + ":" + positionY + ") ");
     }
 
     //------Moving of Tank -- END
 
     private int getSummOfShots() {
         return shotsInNorth + shotsInEast + shotsInSouth + shotsInWest;
+    }
+
+    private String getTimeofAction() {
+        LocalTime timeNow = LocalTime.now();
+        return timeNow.format(DateTimeFormatter.ofPattern("hh:mm:ss"));
     }
 
     // GET methods
