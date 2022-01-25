@@ -6,6 +6,8 @@ import java.util.Locale;
 
 public class Tank {
 
+    private static int nrOfTanks;
+
     private int positionX = 0;
     private int positionY = 0;
     private TankDirections presentDirectionOfTank = TankDirections.NORTH;
@@ -14,7 +16,6 @@ public class Tank {
     private int shotsInSouth = 0;
     private int shotsInWest = 0;
 
-    private static int nrOfTanks;
 
     public Tank() {
         nrOfTanks++;
@@ -77,13 +78,13 @@ public class Tank {
 
     //------Moving of Tank -- END
 
-    private int getSummOfShots() {
-        return shotsInNorth + shotsInEast + shotsInSouth + shotsInWest;
-    }
-
     private String getTimeofAction() {
         LocalTime timeNow = LocalTime.now();
         return timeNow.format(DateTimeFormatter.ofPattern("hh:mm:ss"));
+    }
+
+    private int getSummOfShots() {
+        return shotsInNorth + shotsInEast + shotsInSouth + shotsInWest;
     }
 
     // GET methods
