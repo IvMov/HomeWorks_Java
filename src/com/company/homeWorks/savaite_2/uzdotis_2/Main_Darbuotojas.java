@@ -1,4 +1,4 @@
-package com.company.HomeWorks.Savaite_2.Uzdotis_2;
+package com.company.homeWorks.savaite_2.uzdotis_2;
 
 public class Main_Darbuotojas {
     public static void main(String[] args) {

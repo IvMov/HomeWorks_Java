@@ -1,4 +1,4 @@
-package com.company.HomeWorks.Savaite_2.Uzdotis_2;
+package com.company.homeWorks.savaite_2.uzdotis_2;
 
 import java.time.LocalDate;
 

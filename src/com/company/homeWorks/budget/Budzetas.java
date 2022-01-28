@@ -1,7 +1,6 @@
-package com.company.HomeWorks.Budget;
+package com.company.homeWorks.budget;
 
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
 
 public class Budzetas {
 

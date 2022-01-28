@@ -1,4 +1,4 @@
-package com.company.HomeWorks.Budget;
+package com.company.homeWorks.budget;
 
 public enum AtsiskaitymoBudas {
     GRYNAIS("Grynais"),

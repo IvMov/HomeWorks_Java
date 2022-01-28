@@ -1,6 +1,4 @@
-package com.company.HomeWorks.Savaite_2.Uzdotis_3_Tankas;
-
-import java.util.Arrays;
+package com.company.homeWorks.savaite_2.uzdotis_3_Tankas;
 
 public class Main {
     public static void main(String[] args) {
