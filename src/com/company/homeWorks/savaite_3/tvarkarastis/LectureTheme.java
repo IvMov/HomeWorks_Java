@@ -1,16 +1,16 @@
 package com.company.homeWorks.savaite_3.tvarkarastis;
 
-public enum ProgramLanguages {
+public enum LectureTheme {
     JAVA("Java"),
     PYTHON("Python"),
     PHP("Php"),
     CSHARP("C#"),
     C("C"),
-    CPLUSPLUS("C++");
+    CPP("C++");
 
     private String fullName;
 
-    ProgramLanguages(String fullName) {
+    LectureTheme(String fullName) {
         this.fullName = fullName;
     }
 
