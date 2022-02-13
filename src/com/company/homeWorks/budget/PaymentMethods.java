@@ -1,6 +1,6 @@
 package com.company.homeWorks.budget;
 
-public enum AtsiskaitymoBudas {
+public enum PaymentMethods {
     GRYNAIS("Grynais"),
     KORTELE("Kortele"),
     BANKOMATAS("Išeimo iš bankomato"),
@@ -9,7 +9,7 @@ public enum AtsiskaitymoBudas {
 
     private String pilnasPavadinimas;
 
-    AtsiskaitymoBudas(String pilnasPavadinimas) {
+    PaymentMethods(String pilnasPavadinimas) {
         this.pilnasPavadinimas = pilnasPavadinimas;
     }
 
