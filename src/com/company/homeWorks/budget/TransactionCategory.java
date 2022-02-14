@@ -1,6 +1,6 @@
 package com.company.homeWorks.budget;
 
-public enum CategoryOfCost {
+public enum TransactionCategory {
     MAISTA("mst"),
     ZAIDIMAI("zdm"),
     POILSIS(("pls")),
@@ -10,7 +10,7 @@ public enum CategoryOfCost {
 
     private String categoryTrumpinis;
 
-    CategoryOfCost(String categoryTrumpinis) {
+    TransactionCategory(String categoryTrumpinis) {
         this.categoryTrumpinis = categoryTrumpinis;
     }
 

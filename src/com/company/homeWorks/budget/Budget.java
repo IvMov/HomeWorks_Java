@@ -5,85 +5,114 @@ import java.util.ArrayList;
 
 public class Budget {
 
-    private ArrayList<Income> incomes = new ArrayList<>();
-    private ArrayList<Cost> costs = new ArrayList<>();
-    private BigDecimal budgetBalance = BigDecimal.valueOf(18000.23); // random start value in pocket
 
-//   ----------------------- ISLAIDOS methods-------------------------
+    private static BigDecimal budgetBalance = BigDecimal.valueOf(18000.23); // random start value
 
-    public void addCostToList(BigDecimal summ,
-                              CategoryOfCost category,
-                              PaymentMethods paymentMethod,
-                              CreditCards creditCard) {
+    private ArrayList<Transaction> transactions = new ArrayList<>();
 
-        Cost cost = new Cost(summ, category, paymentMethod, creditCard);
-        costs.add(cost);
-
-        budgetBalance = budgetBalance.subtract(cost.getSumm());
-
-        cost.getInfoAboutNewCost();
+    public void addNewTransactionToList(Transaction transactionToAdd) {
+        transactions.add(transactionToAdd);
+        budgetBalance = budgetBalance.add(transactionToAdd.summ);
+        transactionToAdd.getNewTransactionInfo();
         getInfoBudgetBalance();
-
     }
 
-    public void getCostInfoFromListByNumber(int operationUniqueNr) {
-        Cost costForOutput = costs.get(operationUniqueNr - 1);
-        costForOutput.getInfoAboutCost();
+    public ArrayList<Cost> getAllCosts() {
+        ArrayList<Cost> costs = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            if (transaction instanceof Cost) {
+                costs.add((Cost) transaction);
+            }
+        }
+        return costs;
+    }
+
+    public ArrayList<Income> getAllIncomes() {
+        ArrayList<Income> incomes = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            if (transaction instanceof Income) {
+                incomes.add((Income) transaction);
+            }
+        }
+        return incomes;
+    }
+
+    public void printAllTransactions() {
+        System.out.println("Visi transakcijos: ");
+        for (Transaction transaction : transactions) {
+            transaction.getTransactionInfo();
+        }
     }
 
     public void printAllCosts() {
-        System.out.println("Visi išlaidos:");
-        for (Cost cost : costs) {
-            cost.getInfoAboutCost();
+        ArrayList<Cost> allCosts = getAllCosts();
+        System.out.println("Visi išlaidos: ");
+        for (Cost cost : allCosts) {
+            cost.getTransactionInfo();
         }
-        System.out.println("-----------------");
-    }
-    //   ----------------------- PAJAMOS methods-------------------------
-
-    public void addIncomeToList(BigDecimal summ,
-                                CategoryOfCost category,
-                                boolean incomeIsGeted,
-                                String comment) {
-
-        Income income = new Income(summ, category, incomeIsGeted, comment);
-        incomes.add(income);
-        budgetBalance = budgetBalance.add(income.getSumm());
-
-        income.getInfoAboutNewIncome();
-        getInfoBudgetBalance();
-    }
-
-    public void getIncomeInfoFromListByNumber(int incomeUniqueNr) {
-        Income incomeForOutput = incomes.get(incomeUniqueNr - 1);
-        incomeForOutput.getInfoAboutIncome();
     }
 
     public void printAllIncomes() {
-        System.out.println("Visi pajamai:");
-        for (Income income : incomes) {
-            income.getInfoAboutIncome();
+        ArrayList<Income> allIncomes = getAllIncomes();
+        System.out.println("Visi pajamai: ");
+        for (Income income : allIncomes) {
+            income.getTransactionInfo();
         }
-        System.out.println("-----------------");
     }
 
-    //OTHER
+    public void removeTransactions(int idToRemove) {
+        for (int i = 0; i < transactions.size(); i++) {
+            if (transactions.get(i).id == idToRemove) {
+                budgetBalance = budgetBalance.subtract(transactions.get(i).summ);
+                transactions.remove(i);
+            }
+        }
+    }
+
+    public void deletingTransactions() {
+        String outFromCycle = "";
+        do {
+            if (Programa.SC.hasNextInt()) {
+                int numForDelete = Integer.parseInt(Programa.SC.nextLine());
+                removeTransactions(numForDelete);
+                System.out.printf("Transakcija Nr %d ištrinta!\n", numForDelete);
+                System.out.println("Dar viena ištrinti - įveskite ID, " +
+                        "atgal i menu - \"qq\".");
+            } else {
+                outFromCycle = Programa.SC.nextLine();
+            }
+        } while (!"qq".equals(outFromCycle));
+    }
+
+    public void changeCostInList() {
+        int idToChange = Integer.parseInt(Programa.SC.nextLine());
+        for (int i = 0; i < getAllCosts().size(); i++) {
+            if (getAllCosts().get(i).id == idToChange) {
+                getAllCosts().get(i).changeTransaction();
+            }
+        }
+    }
+
+    public void changeIncomeInList() {
+        int idToChange = Integer.parseInt(Programa.SC.nextLine());
+        for (int i = 0; i < getAllIncomes().size(); i++) {
+            if (getAllIncomes().get(i).id == idToChange) {
+                getAllIncomes().get(i).changeTransaction();
+            }
+        }
+    }
+
 
     public void getInfoBudgetBalance() {
         System.out.printf("Saskaitoje: %.2f EUR \n", budgetBalance);
         ;
     }
 
-    //GET
-
-    public ArrayList<Income> getIncomes() {
-        return incomes;
-    }
-
-    public ArrayList<Cost> getCosts() {
-        return costs;
-    }
-
-    public BigDecimal getBudgetBalance() {
+    public static BigDecimal getBudgetBalance() {
         return budgetBalance;
+    }
+
+    public static void setBudgetBalance(BigDecimal budgetBalance) {
+        Budget.budgetBalance = budgetBalance;
     }
 }

@@ -1,82 +1,45 @@
 package com.company.homeWorks.budget;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Cost {
+public class Cost extends Transaction {
 
-    private static int totalNrOfCosts;
-
-    private int operationUnciqueNr;
-    private BigDecimal summ;
-    private CategoryOfCost category;
-    private LocalDateTime dateAndTimeOfOperation;
     private PaymentMethods paymentMethod;
     private CreditCards creditCard;
 
     public Cost(BigDecimal summ,
-                CategoryOfCost category,
+                TransactionCategory category,
                 PaymentMethods paymentMethod,
-                CreditCards creditCard) {
-        totalNrOfCosts++;
-        this.operationUnciqueNr = totalNrOfCosts;
-        this.summ = summ;
-        this.category = category;
-        this.dateAndTimeOfOperation = LocalDateTime.now();
+                CreditCards creditCard,
+                String comment) {
+
+        super(summ, category, comment);
         this.paymentMethod = paymentMethod;
         this.creditCard = creditCard;
     }
 
+    @Override //nes pirmam uždotije buvo skirtumas - išlaidos turejo ir data ir laikas, pajama turejo tik data
     public String dateTimeToString() {
         return dateAndTimeOfOperation.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public void getInfoAboutNewCost() {
+    @Override
+    public void getNewTransactionInfo() {
         System.out.println(String.format(
-                "Islaida Nr%d suformota. Suma: %E, category: %s, " +
-                        "time of operation: %s, atsiskaitimo buda: %s, kortele: %s.",
-                operationUnciqueNr, summ, category,
-                dateTimeToString(), paymentMethod, creditCard));
+                "IŠLAIDA ID-%d suformota. Suma: %.2f EUR, category: %s, time of operation: %s," +
+                        " atsiskaitimo buda: %s, kortele: %s, komentarus: %s.",
+                id, summ, category, dateTimeToString(),
+                paymentMethod, creditCard, comment));
     }
 
-    public void getInfoAboutCost() {
+    @Override
+    public void getTransactionInfo() {
         System.out.println(String.format(
-                "INFO ABOUT Islaida Nr%d: Suma: %E, category: %s," +
-                        " time of operation: %s, atsiskaitimo buda: %s, kortele: %s.",
-                operationUnciqueNr, summ, category,
-                dateTimeToString(), paymentMethod, creditCard));
-    }
-
-
-    //GET and SET METHODS
-
-    public static int getTotalNrOfCosts() {
-        return totalNrOfCosts;
-    }
-
-    public int getOperationUnciqueNr() {
-        return operationUnciqueNr;
-    }
-
-    public void setOperationUnciqueNr(int operationUnciqueNr) {
-        this.operationUnciqueNr = operationUnciqueNr;
-    }
-
-    public BigDecimal getSumm() {
-        return summ;
-    }
-
-    public CategoryOfCost getCategory() {
-        return category;
-    }
-
-    public PaymentMethods getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public CreditCards getCreditCard() {
-        return creditCard;
+                "IŠLAIDA ID-%d: Suma: %.2f EUR, category: %s, time of operation: %s," +
+                        " atsiskaitimo buda: %s, kortele: %s, komentarus: %s.",
+                id, summ, category, dateTimeToString(),
+                paymentMethod, creditCard, comment));
     }
 
 }

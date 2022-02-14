@@ -1,78 +1,46 @@
 package com.company.homeWorks.budget;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Income {
+public class Income extends Transaction {
 
-    private static int totalNrOfIncomes;
-
-    private int operationUniqueNr;
-    private BigDecimal summ;
-    private CategoryOfCost category;
-    private LocalDate dateAndTimeOfOperation;
     private boolean isIncomeGeted;
-    private String comment;
-
 
     public Income(BigDecimal summ,
-                  CategoryOfCost category,
+                  TransactionCategory category,
                   boolean isIncomeGeted,
                   String comment) {
-
-        totalNrOfIncomes++;
-        this.operationUniqueNr = totalNrOfIncomes;
-        this.dateAndTimeOfOperation = LocalDate.now();
-
-        this.summ = summ;
-        this.category = category;
+        super(summ, category, comment);
         this.isIncomeGeted = isIncomeGeted;
-        this.comment = comment;
     }
 
-    public String getStringFormatedData() {
-        return dateAndTimeOfOperation.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    }
-
-    public String getReceivedIncomeStatus() {
+    public String getReceivedIncomeStatus() { //gal geriau panaudoti Enum?
         return isIncomeGeted ? "gauta".toUpperCase() : "ne gauta".toUpperCase();
     }
 
-    public void getInfoAboutNewIncome() {
-        System.out.println(String.format(
-                "Pajama Nr%d suformota %s. Suma: %E, category: %s, pajama %s, komentarus: %s.",
-                totalNrOfIncomes, getStringFormatedData(), summ, category, getReceivedIncomeStatus(), comment));
+    @Override
+    public String dateTimeToString() { //nes pirmam uždotije buvo skirtumas - išlaidos turejo ir data ir laikas, pajama turejo tik data
+        return dateAndTimeOfOperation.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
-    public void getInfoAboutIncome() {
+    @Override
+    public void getNewTransactionInfo() {
         System.out.println(String.format(
-                "INFO ABOUT pajama Nr%d, data - %s: Suma: %E, category: %s, pajama %s, komentarus: %s",
-                operationUniqueNr, getStringFormatedData(), summ, category,
+                "Pajama ID-%d suformota %s. Suma: %.2f EUR, category: %s," +
+                        " pajama %s, komentarus: %s.",
+                id, dateTimeToString(), summ, category,
                 getReceivedIncomeStatus(), comment));
     }
 
-    //GET and SET methods
-
-
-    public static int getTotalNrOfIncomes() {
-        return totalNrOfIncomes;
+    @Override
+    public void getTransactionInfo() {
+        System.out.println(String.format(
+                "PAJAMA ID-%d, data - %s: Suma: %.2f EUR, category: %s," +
+                        " pajama %s, komentarus: %s",
+                id, dateTimeToString(), summ, category,
+                getReceivedIncomeStatus(), comment));
     }
 
-    public int getOperationUniqueNr() {
-        return operationUniqueNr;
-    }
-
-    public BigDecimal getSumm() {
-        return summ;
-    }
-
-    public CategoryOfCost getCategory() {
-        return category;
-    }
-
-    public String getComment() {
-        return comment;
-    }
 
 }
