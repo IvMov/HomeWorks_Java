@@ -1,17 +1,21 @@
 package com.company.homeWorks.budget;
 
+import javax.sound.midi.Soundbank;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Scanner;
+
+import static com.company.homeWorks.budget.File.*;
 
 public class Programa {
     public static Scanner SC = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
-        String inputComandMainMenu;
+        String inputComandMainMenu; //string where will be var commands from user
         Budget myFirstDudget = new Budget();
 
-        setTestInfoToBudget(myFirstDudget);
+        setTestInfoToBudget(myFirstDudget); //create test 4 incomes and 4 costs
 
         do {
             printMainMenu();
@@ -21,6 +25,7 @@ public class Programa {
                 case "b" -> {
                     myFirstDudget.getInfoBudgetBalance();
                 }
+
                 case "pt" -> {
                     myFirstDudget.printAllTransactions();
                 }
@@ -30,11 +35,14 @@ public class Programa {
                 case "pi" -> {
                     myFirstDudget.printAllIncomes();
                 }
-                case "dt" -> {
-                    myFirstDudget.printAllTransactions();
-                    System.out.println("Įveskite ID transakcijos, kurie norite ištrinti," +
-                            " ar įveskite \"qq\"- grižti atgal.");
-                    myFirstDudget.loopToDeleteTransactions();
+
+                case "nc" -> {
+                    myFirstDudget.addNewTransactionToList(Transaction.createNewCost());
+                    System.out.println("Nauja įšlaida sukurta");
+                }
+                case "ni" -> {
+                    myFirstDudget.addNewTransactionToList(Transaction.createNewIncome());
+                    System.out.println("Nauja pajama sukurta");
                 }
                 case "cc" -> {
                     myFirstDudget.printAllCosts();
@@ -44,6 +52,24 @@ public class Programa {
                     myFirstDudget.printAllIncomes();
                     myFirstDudget.changeIncomeInList();
                 }
+                case "dt" -> {
+                    myFirstDudget.printAllTransactions();
+                    System.out.println("Įveskite ID transakcijos, kurie norite ištrinti," +
+                            " ar įveskite \"qq\"- grižti atgal.");
+                    myFirstDudget.loopToDeleteTransactions();
+                }
+
+                case "sd" -> {
+                    saveDataToCSV(myFirstDudget.getTransactions());
+                    saveObjDataToFile(myFirstDudget);
+                    System.out.println("Duomenis sekmingai išsaugoti");
+                }
+                case "rd" -> {
+                    Budget myNewBudget = readDataFromFile();
+                    myNewBudget.printAllTransactions();
+                    System.out.println("Duomenis sekmingai uploaded");
+                }
+
                 case "q" -> {
                     System.out.println("GAME OVER / VISO GERO ;)");
                 }
@@ -61,9 +87,15 @@ public class Programa {
                 "\n pt -> Print Transakciju Sarašas," +
                 "\n pc -> Print Išlaido Sarašas," +
                 "\n pi -> Print Pajamu Sarašas," +
-                "\n dt -> Ištrinti Transakcija iš saraša," +
+
+                "\n nc -> priedeti nauja išlaida" +
+                "\n ni -> prideti nauja pajama" +
                 "\n cc -> Koreguoti Išlaida saraše," +
                 "\n ci -> Koreguoti Pajama saraše," +
+                "\n dt -> Ištrinti Transakcija iš saraša," +
+
+                "\n sd -> Išsaugoti duomenis į failą," +
+                "\n rd -> Skaititi duomenis įš failo," +
                 "\n q -> Quit program \n");
         System.out.println("------------------------------------------");
     }
@@ -81,12 +113,12 @@ public class Programa {
                 CreditCards.KORTELE1,
                 "bla bla2");
         Transaction transaction3 = new Cost(BigDecimal.valueOf(-500),
-                TransactionCategory.KITAS,
+                TransactionCategory.ZAIDIMAI,
                 PaymentMethods.GRYNAIS,
                 CreditCards.NOCARD,
                 "bla bla3");
         Transaction transaction4 = new Cost(BigDecimal.valueOf(-424.55),
-                TransactionCategory.KITAS,
+                TransactionCategory.MAISTA,
                 PaymentMethods.KORTELE,
                 CreditCards.KORTELE1,
                 "bla bla4");
@@ -104,11 +136,11 @@ public class Programa {
                 true,
                 "Algos pervedimas");
         Transaction transaction6 = new Income(BigDecimal.valueOf(2000),
-                TransactionCategory.KITAS,
+                TransactionCategory.KURAS,
                 true,
                 "Algos pervedimas");
         Transaction transaction7 = new Income(BigDecimal.valueOf(500),
-                TransactionCategory.KITAS,
+                TransactionCategory.REMONTAS,
                 true,
                 "Algos pervedimas");
         Transaction transaction8 = new Income(BigDecimal.valueOf(10),

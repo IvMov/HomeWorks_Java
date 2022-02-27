@@ -1,11 +1,12 @@
 package com.company.homeWorks.budget;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import static com.company.homeWorks.budget.Programa.*;
 
-public class Budget {
+public class Budget implements Serializable {
 
     private static BigDecimal budgetBalance = BigDecimal.valueOf(18000.23); // random start value
     private ArrayList<Transaction> transactions = new ArrayList<>();
@@ -61,7 +62,7 @@ public class Budget {
         } while (!"qq".equals(quit));
     }
 
-    public void changeCostInList() {
+    public void changeCostInList() { //check is in list such number of Cost and change it
         int idToChange = 0;
         boolean idFound = false;
 
@@ -74,13 +75,15 @@ public class Budget {
                     getAllCosts().get(i).changeTransaction();
                 }
             }
+
             if (!idFound) {
                 System.out.println("pajama su tokiu ID: " + idToChange + " nerasta!");
             }
+
         }
     }
 
-    public void changeIncomeInList() {
+    public void changeIncomeInList() { //check is in list such number of Income and change it
         int idToChange = 0;
         boolean idFound = false;
 
@@ -93,17 +96,19 @@ public class Budget {
                     getAllIncomes().get(i).changeTransaction();
                 }
             }
+
             if (!idFound) {
                 System.out.println("pajama su tokiu ID: " + idToChange + " nerasta!");
             }
-        }
 
+        }
     }
 
     public void getInfoBudgetBalance() {
         System.out.printf("Saskaitoje: %.2f EUR \n", budgetBalance);
         ;
     }
+
 
     private ArrayList<Cost> getAllCosts() { //filter from all transactions only Costs
         ArrayList<Cost> costs = new ArrayList<>();
@@ -125,14 +130,6 @@ public class Budget {
         return incomes;
     }
 
-    private ArrayList<Integer> getIdArray() {
-        ArrayList<Integer> arrayWithId = new ArrayList<>();
-        for (Transaction transaction : transactions) {
-            arrayWithId.add(transaction.id);
-        }
-        return arrayWithId;
-    }
-
     private void removeTransactionsByID(int idToRemove) {
         for (int i = 0; i < transactions.size(); i++) {
             if (transactions.get(i).id == idToRemove) {
@@ -140,6 +137,14 @@ public class Budget {
                 transactions.remove(i);
             }
         }
+    }
+
+    private ArrayList<Integer> getIdArray() {
+        ArrayList<Integer> arrayWithId = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            arrayWithId.add(transaction.id);
+        }
+        return arrayWithId;
     }
 
     private int checkInputedScan(String costOrIncome) {
@@ -157,6 +162,7 @@ public class Budget {
         return idToChange;
     }
 
+
     public static BigDecimal getBudgetBalance() {
         return budgetBalance;
     }
@@ -164,4 +170,9 @@ public class Budget {
     public static void setBudgetBalance(BigDecimal budgetBalance) {
         Budget.budgetBalance = budgetBalance;
     }
+
+    public ArrayList<Transaction> getTransactions() {
+        return transactions;
+    }
+
 }

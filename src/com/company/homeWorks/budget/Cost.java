@@ -1,5 +1,6 @@
 package com.company.homeWorks.budget;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.format.DateTimeFormatter;
 
