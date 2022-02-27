@@ -1,8 +1,13 @@
 package com.company.homeWorks.budget;
 
+import jdk.jfr.Category;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Objects;
+import java.util.Locale;
+
+import static com.company.homeWorks.budget.Programa.*;
+import static java.lang.Double.*;
 
 public abstract class Transaction {
 
@@ -26,39 +31,82 @@ public abstract class Transaction {
     }
 
     public void changeTransaction() {
+        changeSumm();
+        changeCategory();
+        changeComment();
+    }
+
+    private void changeSumm() {
         System.out.printf("Summa: %.2f  EUR\n", summ);
-        System.out.println("Ar norite pakeisti summa? [taip] / [ne].");
-        String command1 = Programa.SC.nextLine();
-        if ("taip".equals(command1)) {
+        String command = checkYesOrNo("summa");
+
+        if ("taip".equals(command)) { //change summ
             Budget.setBudgetBalance(Budget.getBudgetBalance().subtract(summ));
-            System.out.println("Įveskite nauja summa: ");
-            BigDecimal newSumm = BigDecimal.valueOf(Double.parseDouble(Programa.SC.nextLine()));
-            summ = newSumm;
-            Budget.setBudgetBalance(Budget.getBudgetBalance().add(summ));
-        }
-        System.out.println("Kategorija: " + category);
-        System.out.println("Ar norite pakeisti kategorija? [taip] / [ne].");
-        String command2 = Programa.SC.nextLine();
-        if ("taip".equals(command2)) {
-            System.out.println("Įveskite nauja Kategorija: ");
-            String newCategory = Programa.SC.nextLine();
-            category = TransactionCategory.valueOf(newCategory);
-        }
-        System.out.println("Komentaras: " + comment);
-        System.out.println("Ar norite pakeisti komentaras? [taip] / [ne].");
-        String command3 = Programa.SC.nextLine();
-        if ("taip".equals(command3)) {
-            System.out.println("Įveskite nauja Kategorija: ");
-            String newComment = Programa.SC.nextLine();
-            comment = newComment;
+
+            while (true) {
+                try {
+                    System.out.println("Įveskite nauja summa: ");
+                    summ = BigDecimal.valueOf(parseDouble(SC.nextLine()));
+                    Budget.setBudgetBalance(Budget.getBudgetBalance().add(summ));
+                    System.out.println("Nauja summa įšsaugota!");
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Klaida Įvestas ne skaičius");
+                }
+            }
+        } else {
+            System.out.println("Ne -> keliaujame toliau!");
         }
     }
 
+    private void changeCategory() {
+        System.out.println("Kategorija: " + category);
+        String command = checkYesOrNo("kategorija");
+
+        if ("taip".equals(command)) { //change category
+
+            while (true) {
+                try {
+                    System.out.println("Įveskite nauja Kategorija: ");
+                    category = TransactionCategory.valueOf(SC.nextLine().toUpperCase());
+                    System.out.println("Nauja kategorija išsaugota!");
+                    break;
+                } catch (IllegalArgumentException e) {
+                    System.out.println("Klaida! Įveskite vienu iš kategorijos: \n " +
+                            "MAISTA, ZAIDIMAI, POILSIS, KURAS, REMONTAS, KITAS.");
+                }
+            }
+        } else {
+            System.out.println("Ne -> keliaujame toliau!");
+        }
+    }
+
+    private void changeComment() {
+        System.out.println("Komentaras: " + comment);
+        String command = checkYesOrNo("komentarus");
+        if ("taip".equals(command)) { //change comment
+            System.out.println("Įveskite naujas komentarus: ");
+            comment = SC.nextLine();
+        } else {
+            System.out.println("Ne -> keliaujame toliau!");
+        }
+    }
+
+    private String checkYesOrNo(String whatToChange) {
+        String command = "";
+        do {
+            System.out.println("Ar norite pakeisti " + whatToChange + " [taip] / [ne].");
+            command = SC.nextLine();
+        } while (!"taip".equals(command) && !"ne".equals(command));
+        return command;
+    }
+
+
     abstract String dateTimeToString();
 
-    abstract void getNewTransactionInfo();
+    abstract void printNewTransactionInfo();
 
-    abstract void getTransactionInfo();
+    abstract void printTransactionInfo();
 
     @Override
     public String toString() {

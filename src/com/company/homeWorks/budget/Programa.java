@@ -34,19 +34,15 @@ public class Programa {
                     myFirstDudget.printAllTransactions();
                     System.out.println("Įveskite ID transakcijos, kurie norite ištrinti," +
                             " ar įveskite \"qq\"- grižti atgal.");
-                    myFirstDudget.deletingTransactions();
+                    myFirstDudget.loopToDeleteTransactions();
                 }
                 case "cc" -> {
                     myFirstDudget.printAllCosts();
-                    System.out.println("Įveskite Išlaido Id, kurie norite pakeisti:");
                     myFirstDudget.changeCostInList();
-                    System.out.println("Koregavimas baigtas.");
                 }
                 case "ci" -> {
                     myFirstDudget.printAllIncomes();
-                    System.out.println("Įveskite Pajamo Id, kurie norite pakeisti:");
                     myFirstDudget.changeIncomeInList();
-                    System.out.println("Koregavimas baigtas.");
                 }
                 case "q" -> {
                     System.out.println("GAME OVER / VISO GERO ;)");
@@ -72,7 +68,8 @@ public class Programa {
         System.out.println("------------------------------------------");
     }
 
-    private static void setTestInfoToBudget(Budget myFirstDudget) {
+
+    private static void setTestInfoToBudget(Budget myFirstDudget) { //4 test pajamos ir 4 test išlaidos sukurimas.
         Transaction transaction1 = new Cost(BigDecimal.valueOf(-1000.55),
                 TransactionCategory.KITAS,
                 PaymentMethods.KORTELE,
@@ -125,5 +122,5 @@ public class Programa {
         myFirstDudget.addNewTransactionToList(transaction8);
 
         System.out.println("-------------------------------------------------------------------------------------");
-    } //4 pajamos ir 4 išlaidos sukurimas.
+    }
 }

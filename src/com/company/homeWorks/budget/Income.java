@@ -15,6 +15,7 @@ public class Income extends Transaction {
         this.isIncomeGeted = isIncomeGeted;
     }
 
+
     public String getReceivedIncomeStatus() { //gal geriau panaudoti Enum?
         return isIncomeGeted ? "gauta".toUpperCase() : "ne gauta".toUpperCase();
     }
@@ -25,7 +26,7 @@ public class Income extends Transaction {
     }
 
     @Override
-    public void getNewTransactionInfo() {
+    public void printNewTransactionInfo() {
         System.out.println(String.format(
                 "Pajama ID-%d suformota %s. Suma: %.2f EUR, category: %s," +
                         " pajama %s, komentarus: %s.",
@@ -34,7 +35,7 @@ public class Income extends Transaction {
     }
 
     @Override
-    public void getTransactionInfo() {
+    public void printTransactionInfo() {
         System.out.println(String.format(
                 "PAJAMA ID-%d, data - %s: Suma: %.2f EUR, category: %s," +
                         " pajama %s, komentarus: %s",
